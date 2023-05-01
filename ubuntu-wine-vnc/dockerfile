@@ -1,0 +1,14 @@
+FROM ubuntu:20.04
+
+RUN dpkg --add-architecture i386 && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends wine32 xvfb x11vnc
+
+# Ange ditt önskade lösenord här
+ARG VNC_PASSWORD=my_password
+RUN mkdir ~/.vnc && \
+    x11vnc -storepasswd $VNC_PASSWORD ~/.vnc/passwd
+
+EXPOSE 5900
+
+CMD ["sh", "-c", "Xvfb :0 -screen 0 1024x768x24 & x11vnc -display :0 -forever -shared -rfbauth /root/.vnc/passwd"]
