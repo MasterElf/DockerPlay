@@ -11,7 +11,7 @@ ENV LANGUAGE en_US.UTF-8
 
 # Install necessary packages and WineHQ
 RUN dpkg --add-architecture i386 && \
-    apt-get update && apt-get -y install python2 python-is-python2 xvfb x11vnc xdotool wget tar supervisor net-tools fluxbox gnupg2 && \
+    apt-get update && apt-get -y install python2 python-is-python2 xvfb x11vnc xdotool wget tar supervisor net-tools fluxbox gnupg2 winetricks && \
     wget -O - https://dl.winehq.org/wine-builds/winehq.key | apt-key add -  && \
     echo 'deb https://dl.winehq.org/wine-builds/ubuntu/ focal main' | tee /etc/apt/sources.list.d/winehq.list && \
     apt-get update && apt-get -y install midori && \
@@ -27,7 +27,8 @@ ENV DISPLAY :0
 
 WORKDIR /root/
 RUN wget -O - https://github.com/novnc/noVNC/archive/v1.1.0.tar.gz | tar -xzv -C /root/ && mv /root/noVNC-1.1.0 /root/novnc && ln -s /root/novnc/vnc_lite.html /root/novnc/index.html && \
-    wget -O - https://github.com/novnc/websockify/archive/v0.9.0.tar.gz | tar -xzv -C /root/ && mv /root/websockify-0.9.0 /root/novnc/utils/websockify
+    wget -O - https://github.com/novnc/websockify/archive/v0.9.0.tar.gz | tar -xzv -C /root/ && mv /root/websockify-0.9.0 /root/novnc/utils/websockify && \
+    winetricks -q dotnet48
 
 EXPOSE 8080
 
