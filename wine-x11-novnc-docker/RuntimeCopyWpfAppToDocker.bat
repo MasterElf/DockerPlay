@@ -1,0 +1,1 @@
+docker cp /WpfApp my_container:/root/WpfApp
